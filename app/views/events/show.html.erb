@@ -1,0 +1,63 @@
+<p id="notice"><%= notice %></p>
+
+<div class="container-fluid card mb-3" style="max-width: 900px;">
+  <div class="row g-0">
+    <div class="col-md-4">
+      <img src="https://source.unsplash.com/400x400/?town?sig=<%=rand(1..50)%>" class="img-fluid rounded-start" alt="Image temoignage 1" >
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+        <h5 class="card-title"><%= @event.title.capitalize %></h5>
+        <p class="card-text"> <strong>Description:</strong> <br/><%= @event.description %></p>
+        <p class="card-text"> <strong>Localisation:</strong> <br/><%= @event.location %></p>
+        <p class="card-text text-start"><small>
+        Débute le <%=@event.start_date.strftime('%Y-%m-%d')%> à <%=@event.start_date.strftime('%H:%M')%> <br/>
+        Fini le <%=@event.end_date.strftime('%Y-%m-%d')%> à <%=@event.end_date.strftime('%H:%M')%> <br/>
+        </small></p>
+        <p class="card-text text-start"><small>Prix : <%=@event.price%> € </small></p>
+        <p class="card-text text-start"><small class="text-muted">Organisateur : <%=link_to @event.admin.full_name, user_path(@event.admin)%></small></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid text-center mb-5">
+  <%if current_user == @event.admin%>
+    <div class="d-flex justify-content-around mt-5">
+      <%= link_to 'Editer', edit_event_path(@event), class:"btn btn-primary"%>
+      <%= button_to 'Suprimmer', event_path(@event), method: :delete, data: { confirm: 'Are you sure?' } , class:"btn btn-danger"%>
+    </div>
+  <%else%>
+    <div class="container">
+      <%if current_user%>
+      <% if participate?(@event, current_user)%>
+        <%=button_to event_attendance_path(@event.id, find_attendance(@event,current_user)), method: :delete, :class => "btn btn-outline-primary disliked" do %>
+        <i class="bi bi-bookmark-check-fill"></i>&nbsp; Ne plus participer<%end%>
+      <%else%>
+        <% if @event.is_free?%>
+          <%=button_to event_attendances_path(@event), method: :create, :class => "btn btn-primary disliked" do %>
+          <i class="bi bi-bookmark-plus"></i></i>&nbsp; Participer <%end%>
+        <%else%>
+          <%=link_to new_event_order_path(@event),:class => "btn btn-primary disliked" do %>
+          <i class="bi bi-bookmark-plus"></i></i>&nbsp; Participer <%end%>
+        <%end%>
+      <%end%>
+      <%end%>
+    </div>
+  <%end%>
+</div>
+
+
+
+<h4>Liste des participants à l'évènement (<%= @event.attendees.count.to_i %>):</h4>
+<ul class="list-group list-group-flush">
+  <% @event.attendees.each do |attendee|%>
+    <li class="list-group-item"> <%=link_to attendee.full_name , user_path(attendee)%> 
+    <% if attendee == @event.admin %> (admin) <%end%>
+    </li>
+  <%end%>
+</ul>
+
+<%= link_to 'Edit', edit_event_path(@event) %> |
+<%= link_to 'Back', events_path %>
+

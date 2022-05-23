@@ -1,0 +1,68 @@
+<p id="notice"><%= notice %></p>
+
+<section class="vh-100" style="background-color: #9de2ff;">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col col-md-9 col-lg-7 col-xl-5">
+        <div class="card" style="border-radius: 15px; width: 600px;">
+          <div class="card-body p-4" >
+            <div class="d-flex text-black">
+              <div class="flex-shrink-0 col-4">
+                <%if @user.avatar.attached?%>
+                  <%= image_tag @user.avatar, alt: 'avatar', style:"width: 180px; border-radius: 10px;"%>
+                <%else%>
+                  <img src="https://source.unsplash.com/350x350/?portrait?sig=<%=rand(1..50)%>"
+                  alt="Generic placeholder image" class="img-fluid"
+                  style="width: 180px; border-radius: 10px;">
+                <%end%>
+                
+              </div>
+              <div class="flex-grow-1 ms-3 col-8">
+                <h5 class="mb-1"><%=@user.full_name%></h5>
+                <p class="mb-2 pb-1" style="color: #2b2a2a;"><%=@user.description%></p>
+                <div class="d-flex justify-content-around rounded-3 p-2 mb-2 "
+                  style="background-color: #efefef;">
+                  <div>
+                    <p class="small text-muted mb-1">Organise</p>
+                    <p class="mb-0"><%=pluralize(@user.admin_events.count, "event")%></p>
+                  </div>
+                  <div class="px-3">
+                    <p class="small text-muted mb-1">Participe à</p>
+                    <p class="mb-0"><%=pluralize(@user.attend_events.count, "event")%></p>
+                  </div>
+
+                </div>
+                <div class="d-flex pt-1">
+                  <button type="button" class="btn btn-outline-primary me-1 flex-grow-1"><%=@user.email%></button>
+                  <button type="button" class="btn btn-primary flex-grow-1">Follow</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+<h1>Evenements crées par <%=@user.first_name%> :</h1>
+<%= render partial: "events/list_events", locals: {events: @events_admin}%>
+
+
+<%= link_to 'Modifier mon profil', edit_user_path(@user) %>
+<%= link_to 'Modifier adresse et mot de passe', edit_user_registration_path %>
+<%= link_to 'Retour à l\'acceuil', root_path %>
+
+<p>Bienvenue sur la page d'ajout d'un avatar pour le User portant l'id : <%=@user.id%></p>
+<h3>Avatar actuel</h3>
+<%if @user.avatar.attached?%>
+  <%= image_tag @user.avatar, alt: 'avatar' %>
+<%else%>
+  <p>=== Il n'y a pas encore d'avatar lié à cet utilisateur ===</p>
+<%end%>
+<h3>Changer d'avatar ?</h3>
+<%= form_tag user_avatars_path(@user), multipart: true do %>
+  <%= file_field_tag :avatar %>
+  <%= submit_tag "mettre à jour" %>
+<% end %>
+</section>

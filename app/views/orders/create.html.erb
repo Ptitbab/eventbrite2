@@ -1,0 +1,7 @@
+<h2>Tu as payé la somme de  <strong><%= @stripe_amount.to_i / 100%> €</strong>!</h2>
+
+<h4> Redirection vers la page d'acceuil dans les prochaines secondes </h4>
+
+<meta HTTP-EQUIV="REFRESH" content="4; url=<%= event_path(@event) %>">
+
+<h5>Si vous n'etes pas redirigés cliquez <%= link_to "ici", event_path(@event) %></h5>

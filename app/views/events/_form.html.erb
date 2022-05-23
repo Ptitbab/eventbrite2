@@ -1,0 +1,51 @@
+<%= form_for @event do |f|%>
+  <% if event.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(event.errors.count, "erreur") %> empechent la sauvegarde de cet evenement:</h2>
+
+      <ul>
+      <% event.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group my-3">
+    <label>Titre de l'evenement: </label>
+    <%= f.text_field :title, class: 'form-control'%>
+  </div>
+  
+  <div class="form-group my-3">
+    <label>Debut de l'evenement: </label>
+    <%= f.datetime_field(:start_date, {class:'form-control'}) %>
+  </div>
+
+  <div class="form-group my-3">
+    <label>Durée en minutes: </label>
+    <%= f.text_field :duration, class: 'form-control', type:'number'%>
+  </div>
+
+  <div class="form-group my-3">
+    <label>Description: </label>
+    <%= f.text_area :description, class: 'form-control'%>
+  </div>
+
+  <div class="form-group my-3">
+    <label>Prix en euros: </label>
+    <%= f.text_field :price, class: 'form-control', type:'number'%>
+  </div>
+
+  <div class="form-group my-3">
+    <label>Localisation: </label>
+    <%= f.text_field :location, class: 'form-control'%>
+  </div>
+
+
+  <button type="submit" class="btn btn-primary">Sauvegarder les infos de l'évènement</button>
+<% end %>
+
+
+
+  
+

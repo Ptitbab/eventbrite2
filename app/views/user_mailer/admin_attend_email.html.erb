@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>Salut <%= @admin.first_name %> !</h1>
+    <p>
+      Nous te prevenons que <%= @attendee.full_name %> vient de s'inscrire à ton évènement <%= @event.title %>. <br/>
+      
+      Voici quelques infos sur ce dernier : <br/>
+      <br/>
+      L'evenement aura lieu ici : <%= @event.location %> <br/>
+      Il durera : <%= @event.duration %> minutes <br/>
+      Il devras raquer <%= @event.price%> euros sinon tu sors ! <br/>
+    </p>
+    <p>
+      Pour accéder à ton espace client, connecte-toi via : <%= @url %>.
+    </p>
+    <p> À très vite sur eventbritehg !
+  </body>
+</html>
